@@ -35,4 +35,7 @@
         - name: Process data
           shell: bash
           run: |
-            echo "$OUTPUT1"
+            for l in ${{ join(fromJSON(needs.prepare.outputs.linux), ' ') }};
+            do
+              echo ${l}
+            done
