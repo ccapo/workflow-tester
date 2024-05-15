@@ -29,9 +29,9 @@
       needs: prepare
       runs-on: ubuntu-20.04
       name: Process data for jobs
+      env:
+        OUTPUT1: ${{needs.prepare.outputs.linux}}
       steps:
-        - env:
-          OUTPUT1: ${{needs.prepare.outputs.linux}}
         - name: Process data
           shell: bash
           run: |
