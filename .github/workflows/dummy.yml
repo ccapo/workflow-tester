@@ -30,11 +30,10 @@
       runs-on: ubuntu-20.04
       name: Process data for jobs
       steps:
+        - env:
+          OUTPUT1: ${{needs.prepare.outputs.linux}}
+        run: echo "$OUTPUT1 $OUTPUT2"
         - name: Process data
           shell: bash
           run: |
-            linux=${{fromJSON(needs.prepare.outputs.linux)}}
-            for l in ${linux};
-            do
-              echo ${l}
-            done
+            echo "$OUTPUT1"
