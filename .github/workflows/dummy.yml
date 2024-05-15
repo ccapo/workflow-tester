@@ -35,15 +35,15 @@
         - name: Process data
           shell: bash
           run: |
-            type=$(echo $INPUT | jq '.[0].type')
+            type=$(echo $INPUT | jq -r '.[0].type')
             coverage=$(echo $INPUT | jq '.[0].coverage')
             count=$(echo $INPUT | jq '.[0].count')
             echo "${type}: ${coverage}%, ${count} tests"
-            type=$(echo $INPUT | jq '.[1].type')
+            type=$(echo $INPUT | jq -r '.[1].type')
             coverage=$(echo $INPUT | jq '.[1].coverage')
             count=$(echo $INPUT | jq '.[1].count')
             echo "${type}: ${coverage}%, ${count} tests"
-            type=$(echo $INPUT | jq '.[2].type')
+            type=$(echo $INPUT | jq -r '.[2].type')
             coverage=$(echo $INPUT | jq '.[2].coverage')
             count=$(echo $INPUT | jq '.[2].count')
             echo "${type}: ${coverage}%, ${count} tests"
