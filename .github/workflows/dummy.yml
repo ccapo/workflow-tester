@@ -30,17 +30,20 @@
       runs-on: ubuntu-20.04
       name: Process data for jobs
       env:
-        OUTPUT1: ${{needs.prepare.outputs.linux}}
+        INPUT: ${{needs.prepare.outputs.linux}}
       steps:
         - name: Process data
           shell: bash
           run: |
-            n=$(echo $OUTPUT1 | jq 'length')
-            echo "n = $n"
-            for ((i=0;i<n;i++));
-            do
-              type=$(echo $OUTPUT1 | jq '.["$i"]' | jq '.type')
-              coverage=$(echo $OUTPUT1 | jq '.["$i"]' | jq '.coverage')
-              count=$(echo $OUTPUT1 | jq '.["$i"]' | jq '.count')
-              echo "${type}: ${coverage}%, ${count} tests"
-            done
+            type=$(echo $INPUT | jq '.[0].type')
+            coverage=$(echo $INPUT | jq '.[0].coverage')
+            count=$(echo $INPUT | jq '.[0].count')
+            echo "${type}: ${coverage}%, ${count} tests"
+            type=$(echo $INPUT | jq '.[1].type')
+            coverage=$(echo $INPUT | jq '.[1].coverage')
+            count=$(echo $INPUT | jq '.[1].count')
+            echo "${type}: ${coverage}%, ${count} tests"
+            type=$(echo $INPUT | jq '.[2].type')
+            coverage=$(echo $INPUT | jq '.[2].coverage')
+            count=$(echo $INPUT | jq '.[2].count')
+            echo "${type}: ${coverage}%, ${count} tests"
