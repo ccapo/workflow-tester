@@ -39,8 +39,8 @@
             echo "n = $n"
             for ((i=0;i<n;i++));
             do
-              type=$(echo $OUTPUT1 | jq '.[${i}]' | jq '.type')
-              coverage=$(echo $OUTPUT1 | jq '.[${i}]' | jq '.coverage')
-              count=$(echo $OUTPUT1 | jq '.[${i}]' | jq '.count')
+              type=$(echo $OUTPUT1 | jq '.[$i]' | jq '.type')
+              coverage=$(echo $OUTPUT1 | jq '.[$i]' | jq '.coverage')
+              count=$(echo $OUTPUT1 | jq '.[$i]' | jq '.count')
               echo "${type}: ${coverage}%, ${count} tests"
             done
