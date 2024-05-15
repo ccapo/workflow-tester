@@ -1,0 +1,40 @@
+# yamllint disable rule:line-length
+---
+  name: Dummy Workflow
+  permissions:
+    contents: read
+  on:
+    workflow_dispatch:
+  
+  jobs:
+    prepare:
+      runs-on: ubuntu-20.04
+      name: Generate data for jobs
+      outputs:
+        linux: ${{steps.data.outputs.linux}}
+      steps:
+        - name: Generate data
+          id: data
+          shell: bash
+          run: |
+            linux="["
+            linux+="{\"type\":\"client\",\"coverage\":75.0,\"count\":1234},"
+            linux+="{\"type\":\"desktop\",\"coverage\":0.0,\"count\":0},"
+            linux+="{\"type\":\"plugins\",\"coverage\":75.0,\"count\":1234},"
+            linux=${linux%?}
+            linux+="]"
+            echo "linux=${linux}" >> "$GITHUB_OUTPUT"
+
+    process:
+      needs: prepare
+      runs-on: ubuntu-20.04
+      name: Process data for jobs
+      steps:
+        - name: Process data
+          shell: bash
+          run: |
+            linux=${{fromJSON(needs.prepare.outputs.linux)}}
+            for l in ${linux};
+            do
+              echo ${l}
+            done
