@@ -32,7 +32,6 @@
       steps:
         - env:
           OUTPUT1: ${{needs.prepare.outputs.linux}}
-        run: echo "$OUTPUT1 $OUTPUT2"
         - name: Process data
           shell: bash
           run: |
