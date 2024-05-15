@@ -35,7 +35,8 @@
         - name: Process data
           shell: bash
           run: |
-            for l in ${{ join(fromJSON(needs.prepare.outputs.linux), ' ') }};
+            n=$(echo $OUTPUT1 | jq 'length')
+            for i in {0..n-1};
             do
-              echo "$(echo $l | jq .type): $(echo $l | jq .coverage)%, $(echo $l | jq .count) tests"
+              echo "$i"
             done
