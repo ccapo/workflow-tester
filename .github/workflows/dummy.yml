@@ -37,5 +37,5 @@
           run: |
             for l in ${{ join(fromJSON(needs.prepare.outputs.linux), ' ') }};
             do
-              echo "$(echo $l | jq -r '.type'): $(echo $l | jq -r .coverage)%, $(echo $l | jq -r .count) tests"
+              echo "$(echo $l | jq .type): $(echo $l | jq .coverage)%, $(echo $l | jq .count) tests"
             done
