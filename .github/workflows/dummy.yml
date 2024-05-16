@@ -54,4 +54,5 @@
               echo "mac, ${type}: ${coverage}%, ${count} tests" >> mac.md
             done
             files=$(find . -name '*.md' -type f -exec basename {} \; | tr '\n' ',')
+            files=${files%?}
             echo "files: ${files}"
