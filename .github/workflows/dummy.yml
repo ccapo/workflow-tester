@@ -45,8 +45,8 @@
             do
               for type in "client" "desktop" "plugins";
               do
-                coverage=$(echo '${{env['linux']}}' | jq -r .${type}_coverage)
-                count=$(echo '${{env['linux']}}' | jq .${type}_count)
+                coverage=$(echo '${{env['${os}']}}' | jq -r .${type}_coverage)
+                count=$(echo '${{env['${os}']}}' | jq .${type}_count)
                 echo "${os}, ${type}: ${coverage}%, ${count} tests"
               done
             done
