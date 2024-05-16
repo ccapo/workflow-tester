@@ -35,8 +35,8 @@
       runs-on: ubuntu-20.04
       name: Process data for jobs
       env:
-        linux_results: ${{needs.prepare.outputs.linux}}
-        mac_results: ${{needs.prepare.outputs.mac}}
+        linux: ${{needs.prepare.outputs.linux}}
+        mac: ${{needs.prepare.outputs.mac}}
       steps:
         - name: Process data
           shell: bash
@@ -45,8 +45,8 @@
             do
               for type in "client" "desktop" "plugins";
               do
-                coverage=$(echo '${{needs.prepare.outputs.$os}}}' | jq -r .${type}_coverage)
-                count=$(echo '${{needs.prepare.outputs.$os}}' | jq .${type}_count)
+                coverage=$(echo '${{env[format('{0}', os)]}}' | jq -r .${type}_coverage)
+                count=$(echo '${{env[format('{0}', os)]}}' | jq .${type}_count)
                 echo "${type}: ${coverage}%, ${count} tests"
               done
             done
