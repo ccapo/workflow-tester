@@ -41,13 +41,15 @@
         - name: Process data
           shell: bash
           run: |
-            for os in "linux" "mac";
+            for type in "client" "desktop" "plugins";
             do
-              echo "${os}, ${{env[$os]}}"
-              for type in "client" "desktop" "plugins";
-              do
-                coverage=$(echo '${{env['${os}']}}' | jq -r .${type}_coverage)
-                count=$(echo '${{env['${os}']}}' | jq .${type}_count)
-                echo "${os}, ${type}: ${coverage}%, ${count} tests"
-              done
+              coverage=$(echo '${{env['linux']}}' | jq -r .${type}_coverage)
+              count=$(echo '${{env['linux']}}' | jq .${type}_count)
+              echo "linux, ${type}: ${coverage}%, ${count} tests"
+            done
+            for type in "client" "desktop" "plugins";
+            do
+              coverage=$(echo '${{env['mac']}}' | jq -r .${type}_coverage)
+              count=$(echo '${{env['mac']}}' | jq .${type}_count)
+              echo "mac, ${type}: ${coverage}%, ${count} tests"
             done
