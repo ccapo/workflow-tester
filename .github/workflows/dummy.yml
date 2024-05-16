@@ -43,7 +43,7 @@
           run: |
             for type in "client" "desktop" "plugins";
             do
-              coverage=$(echo $linux_results | jq -r .${type}_coverage)
-              count=$(echo $linux_results | jq .${type}_count)
+              coverage=$(echo ${{needs.prepare.outputs.linux}} | jq -r .${type}_coverage)
+              count=$(echo ${{needs.prepare.outputs.linux}}| jq .${type}_count)
               echo "${type}: ${coverage}%, ${count} tests"
             done
