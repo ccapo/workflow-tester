@@ -43,7 +43,7 @@
           run: |
             for os in "linux" "mac";
             do
-              echo "${os}, ${{env[os]}}"
+              echo "${os}, ${{env[$os]}}"
               for type in "client" "desktop" "plugins";
               do
                 coverage=$(echo '${{env['${os}']}}' | jq -r .${type}_coverage)
