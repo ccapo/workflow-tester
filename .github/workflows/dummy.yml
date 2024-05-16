@@ -12,33 +12,38 @@
       name: Generate data for jobs
       outputs:
         linux: ${{steps.data.outputs.linux}}
+        mac: ${{steps.data.outputs.mac}}
       steps:
         - name: Generate data
           id: data
           shell: bash
           run: |
-            linux="{"
-            for type in "client" "desktop" "plugins";
+            for os in "linux" "mac";
             do
-              linux+="\"${type}_coverage\":75.0,\"${type}_count\":1234,"
+              stats="{"
+              for type in "client" "desktop" "plugins";
+              do
+                stats+="\"${type}_coverage\":75.0,\"${type}_count\":1234,"
+              done
+              stats=${stats%?}
+              stats+="}"
+              echo "${os}=${stats}" >> "$GITHUB_OUTPUT"
             done
-            linux=${linux%?}
-            linux+="}"
-            echo "linux=${linux}" >> "$GITHUB_OUTPUT"
 
     process:
       needs: prepare
       runs-on: ubuntu-20.04
       name: Process data for jobs
       env:
-        INPUT: ${{needs.prepare.outputs.linux}}
+        linux_results: ${{needs.prepare.outputs.linux}}
+        mac_results: ${{needs.prepare.outputs.mac}}
       steps:
         - name: Process data
           shell: bash
           run: |
             for type in "client" "desktop" "plugins";
             do
-              coverage=$(echo $INPUT | jq -r .${type}_coverage)
-              count=$(echo $INPUT | jq .${type}_count)
+              coverage=$(echo $linux_results | jq -r .${type}_coverage)
+              count=$(echo $linux_results | jq .${type}_count)
               echo "${type}: ${coverage}%, ${count} tests"
             done
