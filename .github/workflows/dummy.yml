@@ -45,11 +45,13 @@
             do
               coverage=$(echo '${{env['linux']}}' | jq -r .${type}_coverage)
               count=$(echo '${{env['linux']}}' | jq .${type}_count)
-              echo "linux, ${type}: ${coverage}%, ${count} tests"
+              echo "linux, ${type}: ${coverage}%, ${count} tests" >> linux.md
             done
             for type in "client" "desktop" "plugins";
             do
               coverage=$(echo '${{env['mac']}}' | jq -r .${type}_coverage)
               count=$(echo '${{env['mac']}}' | jq .${type}_count)
-              echo "mac, ${type}: ${coverage}%, ${count} tests"
+              echo "mac, ${type}: ${coverage}%, ${count} tests" >> mac.md
             done
+            files=$(find . -name '*.md' -print)
+            echo "files: ${files}"
