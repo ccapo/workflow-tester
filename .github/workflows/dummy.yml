@@ -53,5 +53,5 @@
               count=$(echo '${{env['mac']}}' | jq .${type}_count)
               echo "mac, ${type}: ${coverage}%, ${count} tests" >> mac.md
             done
-            files=$(find . -name '*.md' -type f -exec basename {} \;)
+            files=$(find . -name '*.md' -type f -exec basename {} \; | tr '\n' ',')
             echo "files: ${files}"
