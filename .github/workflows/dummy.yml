@@ -17,12 +17,13 @@
           id: data
           shell: bash
           run: |
-            linux="["
-            linux+="{\"type\":\"client\",\"coverage\":75.0,\"count\":1234},"
-            linux+="{\"type\":\"desktop\",\"coverage\":0.0,\"count\":0},"
-            linux+="{\"type\":\"plugins\",\"coverage\":75.0,\"count\":1234},"
+            linux="{"
+            for type in "client" "desktop" "plugins";
+            do
+              linux+="\"${type}_coverage\":75.0,\"${type}_count\":1234,"
+            done
             linux=${linux%?}
-            linux+="]"
+            linux+="}"
             echo "linux=${linux}" >> "$GITHUB_OUTPUT"
 
     process:
@@ -35,15 +36,9 @@
         - name: Process data
           shell: bash
           run: |
-            type=$(echo $INPUT | jq -r '.[0].type')
-            coverage=$(echo $INPUT | jq '.[0].coverage')
-            count=$(echo $INPUT | jq '.[0].count')
+          for type in "client" "desktop" "plugins";
+          do
+            coverage=$(echo $INPUT | jq -r .${type}_coverage)
+            count=$(echo $INPUT | jq .${type}_count)
             echo "${type}: ${coverage}%, ${count} tests"
-            type=$(echo $INPUT | jq -r '.[1].type')
-            coverage=$(echo $INPUT | jq '.[1].coverage')
-            count=$(echo $INPUT | jq '.[1].count')
-            echo "${type}: ${coverage}%, ${count} tests"
-            type=$(echo $INPUT | jq -r '.[2].type')
-            coverage=$(echo $INPUT | jq '.[2].coverage')
-            count=$(echo $INPUT | jq '.[2].count')
-            echo "${type}: ${coverage}%, ${count} tests"
+          done
