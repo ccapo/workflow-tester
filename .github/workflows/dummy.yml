@@ -61,19 +61,19 @@
       runs-on: ubuntu-20.04
       name: Generate Documents
       steps:
-        - name: Create Initial Content
-          shell: bash
-          run: |
-            mkdir -p docs
-            echo "Hello World" >> docs/doc.md
+        # - name: Create Initial Content
+        #   shell: bash
+        #   run: |
+        #     mkdir -p docs
+        #     echo "Hello World" >> docs/doc.md
       
-        - name: Upload Initial Doc
-          uses: actions/upload-artifact@v4
-          with:
-            name: doc
-            path: docs
-            retention-days: 1
-            overwrite: true
+        # - name: Upload Initial Doc
+        #   uses: actions/upload-artifact@v4
+        #   with:
+        #     name: doc
+        #     path: docs
+        #     retention-days: 1
+        #     overwrite: true
       
         - name: Fetch Existing Doc
           uses: actions/download-artifact@v4
