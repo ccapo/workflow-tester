@@ -56,3 +56,34 @@
             files=$(find . -name '*.md' -type f -exec basename {} \; | tr '\n' ',')
             files=${files%?}
             echo "files: ${files}"
+
+    docs:
+      runs-on: ubuntu-20.04
+      name: Generate Documents
+      steps:
+        - name: Create Initial Content
+          shell: bash
+          run: echo "Hello World" >> doc.md
+      
+        - name: Upload Initial Doc
+          uses: actions/upload-artifact@v4
+          with:
+            name: doc.md
+            retention-days: 1
+            overwrite: true
+      
+        - name: Fetch Existing Doc
+          uses: actions/download-artifact@v4
+          with:
+            name: doc.md
+
+        - name: Update Content
+          shell: bash
+          run: echo "Testing ... $(date +'%Y-%m-%d')" >> doc.md
+
+        - name: Upload Doc
+          uses: actions/upload-artifact@v4
+          with:
+            name: doc.md
+            retention-days: 1
+            overwrite: true
