@@ -68,14 +68,15 @@
         - name: Upload Initial Doc
           uses: actions/upload-artifact@v4
           with:
-            name: doc.md
+            name: doc
+            path: $GITHUB_WORKSPACE/doc.md
             retention-days: 1
             overwrite: true
       
         - name: Fetch Existing Doc
           uses: actions/download-artifact@v4
           with:
-            name: doc.md
+            name: doc
 
         - name: Update Content
           shell: bash
@@ -84,6 +85,7 @@
         - name: Upload Doc
           uses: actions/upload-artifact@v4
           with:
-            name: doc.md
+            name: doc
+            path: $GITHUB_WORKSPACE/doc.md
             retention-days: 1
             overwrite: true
