@@ -63,13 +63,15 @@
       steps:
         - name: Create Initial Content
           shell: bash
-          run: echo "Hello World" >> doc.md
+          run: |
+            mkdir -p docs
+            echo "Hello World" >> docs/doc.md
       
         - name: Upload Initial Doc
           uses: actions/upload-artifact@v4
           with:
             name: doc
-            path: $GITHUB_WORKSPACE/doc.md
+            path: docs
             retention-days: 1
             overwrite: true
       
@@ -77,15 +79,16 @@
           uses: actions/download-artifact@v4
           with:
             name: doc
+            path: docs
 
         - name: Update Content
           shell: bash
-          run: echo "Testing ... $(date +'%Y-%m-%d')" >> doc.md
+          run: echo "Testing ... $(date +'%Y-%m-%d')" >> docs/doc.md
 
         - name: Upload Doc
           uses: actions/upload-artifact@v4
           with:
             name: doc
-            path: $GITHUB_WORKSPACE/doc.md
+            path: docs
             retention-days: 1
             overwrite: true
