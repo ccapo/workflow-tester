@@ -30,7 +30,7 @@ jobs:
           # echo "COMMIT_THRESHOLD = $COMMIT_THRESHOLD"
           # echo "COMMIT_CHANCE = $COMMIT_CHANCE"
           # echo "COMMIT_COUNT = $COMMIT_COUNT"
-          if [ "$COMMIT_CHANCE" -gt "$COMMIT_THRESHOLD" ]; then
+          if [ "$COMMIT_CHANCE" -lt "$COMMIT_THRESHOLD" ]; then
             git config --global user.email "ccapo.astro@gmail.com"
             git config --global user.name "Chris Capobianco"
             for ((i=0; i<COMMIT_COUNT; i++)); do
