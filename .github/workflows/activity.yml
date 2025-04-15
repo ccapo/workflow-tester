@@ -1,0 +1,40 @@
+name: GitHub Activity Automation
+on:
+  schedule:
+    - cron: "0 1 * * *" # Runs daily at 1 AM UTC, 8 PM EST
+  workflow_dispatch: # Allows manual triggering
+permissions:
+  contents: write
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} # Use the token for authentication
+
+      - name: Commit and push changes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMIT_THRESHOLD: 60
+        run: |
+          # Generate number of commits (between 1 and 3)
+          COMMIT_COUNT=$((1 + RANDOM % 3))
+          
+          # Chance we commit
+          COMMIT_CHANCE=$((RANDOM % 100))
+          
+          # If we exceed the commit threshold, generate commits and push
+          if [ "$COMMIT_CHANCE" -gt "$COMMIT_THRESHOLD" ]; then
+            for ((i=0; i<COMMIT_COUNT; i++)); do
+              info="Commit: $(date)"
+              echo "$info" >> output.txt
+              git add output.txt
+              git commit -m "$info"
+            done
+            git push
+          else
+            echo "No Commit Today"
+          fi
